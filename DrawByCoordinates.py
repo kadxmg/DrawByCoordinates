@@ -48,7 +48,7 @@ if __name__ == '__main__':
         print('请将截图改名为 Screenshot')
         exit(-1)
     stop_keyword = 'ContactsProvider: Locale has changed from'
-    print('截止到 ', stop_keyword)
+    print('截止关键字 ', stop_keyword)
     xys = process_log(log_file, stop_keyword)
     process_pic(screen_png, xys)
 # 访问 https://www.jetbrains.com/help/pycharm/ 获取 PyCharm 帮助
