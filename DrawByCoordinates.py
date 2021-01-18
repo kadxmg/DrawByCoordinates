@@ -2,6 +2,7 @@
 
 # 按 Shift+F10 执行或将其替换为您的代码。
 # 按 双击 Shift 在所有地方搜索类、文件、工具窗口、操作和设置。
+import os
 import re
 from PIL import Image, ImageDraw
 
@@ -38,10 +39,16 @@ def process_log(log_file, stop_keyword):
 
 # 按间距中的绿色按钮以运行脚本。
 if __name__ == '__main__':
-    print('请将log文件改名为 log.txt')
-    print('请将截图改名为 Screenshot')
+    log_file = 'log.txt'
+    screen_png = 'Screenshot.png'
+    if not os.path.exists(log_file):
+        input('请将log文件改名为 log.txt')
+        exit(-1)
+    if not os.path.exists(log_file):
+        print('请将截图改名为 Screenshot')
+        exit(-1)
     stop_keyword = 'ContactsProvider: Locale has changed from'
     print('截止到 ', stop_keyword)
-    xys = process_log('log.txt', stop_keyword)
-    process_pic('Screenshot.png', xys)
+    xys = process_log(log_file, stop_keyword)
+    process_pic(screen_png, xys)
 # 访问 https://www.jetbrains.com/help/pycharm/ 获取 PyCharm 帮助
