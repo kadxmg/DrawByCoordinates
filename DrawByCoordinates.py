@@ -29,13 +29,21 @@ def process_log(log_file, stop_keyword):
     lines = f.read()
     f.close()
     interest_lines = lines.split(stop_keyword)[0]
-    re_xy = re.compile(r"(\d): \((\d+)\.\d, (\d+)\.\d\)")
-    xys = re_xy.findall(interest_lines)
+    keyword_regex = [
+        r"(\d): \((\d+)\.\d, (\d+)\.\d\)",
+        r"Pointer (\d):x, y=\((\d+)\.\d+,(\d+)\.\d+\)"
+        ]
+    xy_items = []
+    for regex in keyword_regex:
+        re_xy = re.compile(regex)
+        xy_items = re_xy.findall(interest_lines)
+        if len(xy_items) > 0:
+            for xy in xy_items:
+                print('坐标：', xy)
+            return xy_items
 
-    for xy in xys:
-        print('坐标：', xy)
-    return xys
-
+    print('没有找到有效数据')
+    return None
 
 # 按间距中的绿色按钮以运行脚本。
 if __name__ == '__main__':
@@ -50,5 +58,6 @@ if __name__ == '__main__':
     stop_keyword = 'ContactsProvider: Locale has changed from'
     print('截止关键字 ', stop_keyword)
     xys = process_log(log_file, stop_keyword)
-    process_pic(screen_png, xys)
+    if xys is not None:
+        process_pic(screen_png, xys)
 # 访问 https://www.jetbrains.com/help/pycharm/ 获取 PyCharm 帮助
